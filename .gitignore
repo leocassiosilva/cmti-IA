@@ -1,0 +1,8 @@
+# Ignorar a pasta da Virtual Environment
+venv/
+
+# Ignorar arquivos específicos do Visual Studio Code
+.vscode/
+*.code-workspace
+*.code-workspace-watcher
+.history/
