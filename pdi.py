@@ -1,10 +1,12 @@
 # Importação das bibliotecas
 import cv2
 import numpy as np
-# from matplotlib import pyplot as plt
+import hashlib
+import os
+
 
 # Caminho da imagem a ser processada
-imagem = 'imgs\imagem_processamento.png'
+imagem = 'imgs\/folhas\/001.jpg'
 
 img = cv2.imread(imagem)
 
@@ -28,17 +30,24 @@ sharpened = cv2.filter2D(img, -1, kernel_sharpening)
 
 
 
-# Salvar a imagem gray em um arquivo
-cv2.imwrite('image_gray.jpg', gray)
+# Função para calcular o hash MD5 de uma imagem
+def calculate_hash(image):
+    md5 = hashlib.md5()
+    md5.update(image)
+    return md5.hexdigest()
 
-# Salvar a imagem binarizada em um arquivo
-cv2.imwrite('image_binarizada.jpg', binary_image)
+# Calcular os hashes
+hash_binary = calculate_hash(binary_image.tobytes())
+hash_gray = calculate_hash(gray.tobytes())
+hash_blurred = calculate_hash(blurred.tobytes())
+hash_sharpened = calculate_hash(sharpened.tobytes())
 
-# Salvar a imagem blurred em um arquivo
-cv2.imwrite('image_blurred.jpg', blurred)
+# Salvar as imagens com os nomes baseados nos hashes
+cv2.imwrite(f'image_{hash_binary}.jpg', gray)
+cv2.imwrite(f'image_{hash_gray}.jpg', gray)
+cv2.imwrite(f'image_{hash_blurred}.jpg', blurred)
+cv2.imwrite(f'image_{hash_sharpened}.jpg', sharpened)
 
-# Aplicar filtro de realce (sharpening)
-cv2.imwrite('image_sharpened.jpg', sharpened)
 
 
 # # Exibir a imagem binarizada
